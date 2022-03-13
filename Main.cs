@@ -10,6 +10,7 @@ namespace GeminiTrader
         GeminiApi.GeminiRequest geminiRequest;
         Timer timer;
         TickerPrice.CryptoAPI2 tickerInfoResults;
+        string float_ = "8";
 
         public Main()
         {
@@ -17,7 +18,7 @@ namespace GeminiTrader
 
             string[] args = Environment.GetCommandLineArgs();
 
-            if(args.Length != 3)
+            if (args.Length != 3)
             {
                 MessageBox.Show("Add Key and Secret in Target. e.g " + args[0].Replace("dll", "exe") + " Key Secret ");
             }
@@ -77,6 +78,8 @@ namespace GeminiTrader
         private async void getOrderBook()
         {
             TickerPrice.CryptoAPI3 orderBookData = await TickerPrice.orderBooks(marketCB.Text);
+
+            if (orderBookData == null || orderBookData.asks == null || orderBookData.bids == null) return;
 
             double cumulative = 0;
             int count = 0;
@@ -197,31 +200,30 @@ namespace GeminiTrader
         private void quantityFiatTB_Validated(object sender, EventArgs e)
         {
             if (quantityFiatTB.Text == "") return;
-            string float_ = "8";
             switch (tickerInfoResults.tick_size.ToString())
             {
-                case "1E-1":
+                case "1E-01":
                     float_ = "1";
                     break;
-                case "1E-2":
+                case "1E-02":
                     float_ = "2";
                     break;
-                case "1E-3":
+                case "1E-03":
                     float_ = "3";
                     break;
-                case "1E-4":
+                case "1E-04":
                     float_ = "4";
                     break;
-                case "1E-5":
+                case "1E-05":
                     float_ = "5";
                     break;
-                case "1E-6":
+                case "1E-06":
                     float_ = "6";
                     break;
-                case "1E-7":
+                case "1E-07":
                     float_ = "7";
                     break;
-                case "1E-8":
+                case "1E-08":
                     float_ = "8";
                     break;
             }
@@ -239,6 +241,7 @@ namespace GeminiTrader
             }
             else
             {
+                quantityCoinTB.Text = Math.Max(Convert.ToDouble(tickerInfoResults.min_order_size), (Convert.ToDouble(quantityFiatTB.Text) / Convert.ToDouble(priceTB.Text))).ToString("F" + float_);
                 if (buysellButton.Text == "Buy")
                 {//sell
                     geminiRequest.CreateNewOrder(Convert.ToDecimal(priceTB.Text), Convert.ToDecimal(quantityCoinTB.Text), "sell", marketCB.Text);

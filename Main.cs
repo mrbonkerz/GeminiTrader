@@ -130,7 +130,7 @@ namespace GeminiTrader
             symbols = symbols.Replace("\"]", "");
             symbols = symbols.Replace("\"", "");
 
-            foreach (string str in symbols.Split(","))
+            foreach (string str in symbols.Split(','))
             {
                 marketCB.Items.Add(str.ToUpper());
             }

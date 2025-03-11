@@ -193,7 +193,7 @@ namespace GeminiTrader
         {
             if (quantityCoinTB.Text == "") return;
 
-            quantityFiatTB.Text = (Convert.ToDouble(quantityCoinTB.Text) * Convert.ToDouble(priceTB.Text)).ToString("F2");
+            quantityFiatTB.Text = (Convert.ToDouble(quantityCoinTB.Text) * Convert.ToDouble(priceTB.Text)).ToString("F8");
             updateTotal();
         }
 
@@ -228,7 +228,7 @@ namespace GeminiTrader
                     break;
             }
 
-            quantityCoinTB.Text = Math.Max(Convert.ToDouble(tickerInfoResults.min_order_size), (Convert.ToDouble(quantityFiatTB.Text) / Convert.ToDouble(priceTB.Text))).ToString("F" + float_);
+            quantityCoinTB.Text = Math.Max(Convert.ToDouble(tickerInfoResults.min_order_size), (Convert.ToDouble(quantityFiatTB.Text) / Convert.ToDouble(priceTB.Text))).ToString("F8");
             updateTotal();
         }
 
@@ -241,7 +241,7 @@ namespace GeminiTrader
             }
             else
             {
-                quantityCoinTB.Text = Math.Max(Convert.ToDouble(tickerInfoResults.min_order_size), (Convert.ToDouble(quantityFiatTB.Text) / Convert.ToDouble(priceTB.Text))).ToString("F" + float_);
+                quantityCoinTB.Text = Math.Max(Convert.ToDouble(tickerInfoResults.min_order_size), (Convert.ToDouble(quantityFiatTB.Text) / Convert.ToDouble(priceTB.Text))).ToString("F8");
                 if (buysellButton.Text == "Buy")
                 {//sell
                     geminiRequest.CreateNewOrder(Convert.ToDecimal(priceTB.Text), Convert.ToDecimal(quantityCoinTB.Text), "sell", marketCB.Text);
